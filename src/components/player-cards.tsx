@@ -21,7 +21,7 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Player, PlayerAttribute } from "../app/page";
+import { Player, type PlayerAttribute } from "../app/page";
 import { useState, useId } from "react";
 
 type PlayerCardsProps = {
@@ -141,9 +141,6 @@ function Rating({ rating }: { rating: number }) {
 }
 
 function StarIcon(props: any) {
-  // const [filled, setFiiled] = useState(false);
-
-  console.log(props.id);
   return (
     <button
       aria-label="Set shooting rating to 1"

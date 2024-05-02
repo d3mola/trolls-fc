@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { PlayerCards } from "../components/player-cards";
 
 export type PlayerAttribute = {
@@ -17,26 +16,26 @@ export type Player = {
   };
 };
 
-export const players: Array<Player> = [
+const players: Array<Player> = [
   {
     id: "1",
     name: "Ademola",
     position: "Defender",
     attributes: [
       {
-        title: 'Shooting',
+        title: "Shooting",
         rating: 1,
       },
       {
-        title: 'Passing',
+        title: "Passing",
         rating: 2,
       },
       {
-        title: 'Defending',
+        title: "Defending",
         rating: 3,
       },
       {
-        title: 'Dribbling',
+        title: "Dribbling",
         rating: 4,
       },
     ],
@@ -47,19 +46,19 @@ export const players: Array<Player> = [
     position: "Attacker",
     attributes: [
       {
-        title: 'Shooting',
+        title: "Shooting",
         rating: 4,
       },
       {
-        title: 'Passing',
+        title: "Passing",
         rating: 4,
       },
       {
-        title: 'Defending',
+        title: "Defending",
         rating: 1,
       },
       {
-        title: 'Dribbling',
+        title: "Dribbling",
         rating: 5,
       },
     ],
