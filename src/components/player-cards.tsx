@@ -140,7 +140,7 @@ function Rating({ rating }: { rating: number }) {
   );
 }
 
-function StarIcon(props: any) {
+function StarIcon({setStars, stars, num, ...props}: any) {
   return (
     <button
       aria-label="Set shooting rating to 1"
@@ -149,7 +149,7 @@ function StarIcon(props: any) {
       //   setFiiled((filled) => !filled);
       // }}
       onClick={() => {
-        props.setStars(props.num + 1);
+        setStars(props.num + 1);
       }}
     >
       <svg
@@ -158,7 +158,7 @@ function StarIcon(props: any) {
         width="24"
         height="24"
         viewBox="0 0 24 24"
-        fill={props.stars > props.num ? "currentColor" : "none"}
+        fill={stars > num ? "currentColor" : "none"}
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
