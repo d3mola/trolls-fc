@@ -21,8 +21,7 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Player, type PlayerAttribute } from "../app/page";
-import { useState, useId } from "react";
+import { Player, updateRating, type PlayerAttribute } from "../app/page";
 
 type PlayerCardsProps = {
   players: Array<Player>;
@@ -50,14 +49,15 @@ export function PlayerCards({ players }: PlayerCardsProps) {
 }
 
 type PlayerAttributeProps = {
+  id: string;
   attribute: PlayerAttribute;
 };
-function PlayerAttribute({ attribute }: PlayerAttributeProps) {
+function PlayerAttribute({ id, attribute }: PlayerAttributeProps) {
   const { title, rating } = attribute;
   return (
     <div className="flex items-center justify-between">
       <span className="text-gray-500">{title}</span>
-      <Rating rating={rating} />
+      <Rating rating={rating} playerId={id} attribute={attribute} />
     </div>
   );
 }
@@ -84,13 +84,13 @@ function PlayerCard(props: PlayerCardProps) {
         />
         <div>
           <h2 className="text-lg font-bold">{name}</h2>
-          <p className="text-gray-500">{position}</p>
+          <p className="text-gray-500 capitalize">{position}</p>
         </div>
       </div>
       <div className="p-4 space-y-2">
         {attributes.map((att) => {
           return (
-            <PlayerAttribute key={att.title} attribute={att} />
+            <PlayerAttribute id={player.id} key={att.title} attribute={att} />
           );
         })}
       </div>
@@ -118,21 +118,28 @@ function PlusIcon(props: any) {
   );
 }
 
-function Rating({ rating }: { rating: number }) {
-  const id = useId();
-
-  const [stars, setStars] = useState(rating);
-
+function Rating({
+  rating,
+  playerId,
+  attribute,
+}: {
+  rating: number;
+  playerId: string;
+  attribute: PlayerAttribute;
+}) {
+  // const [stars, setStars] = useState(rating);
   return (
     <div className="flex items-center">
-      {[0, 1, 2, 3, 4].map((num) => {
+      {[0, 1, 2, 3, 4].map((id) => {
         return (
           <StarIcon
-            key={`${id}_${num}`}
-            id={`${id}_${num}`}
-            num={num}
-            stars={stars}
-            setStars={setStars}
+            key={`player_${playerId}_${id}`}
+            id={id}
+            starPos={id+1}
+            stars={rating}
+            // setStars={setStars}
+            playerId={playerId}
+            attribute={attribute}
           />
         );
       })}
@@ -140,16 +147,19 @@ function Rating({ rating }: { rating: number }) {
   );
 }
 
-function StarIcon({setStars, stars, num, ...props}: any) {
+function StarIcon({ playerId, attribute, stars: rating, starPos, ...props }: any) {
+  let filled = starPos <= rating
+  const ratingIsUnchaged = rating === starPos;
   return (
     <button
       aria-label="Set shooting rating to 1"
       className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-      // onClick={() => {
-      //   setFiiled((filled) => !filled);
-      // }}
       onClick={() => {
-        setStars(props.num + 1);
+        updateRating({
+          playerId: Number(playerId),
+          attribute: attribute.title,
+          rating: ratingIsUnchaged ? starPos - 1 : starPos,
+        });
       }}
     >
       <svg
@@ -158,7 +168,7 @@ function StarIcon({setStars, stars, num, ...props}: any) {
         width="24"
         height="24"
         viewBox="0 0 24 24"
-        fill={stars > num ? "currentColor" : "none"}
+        fill={filled ? "currentColor" : "none"}
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"

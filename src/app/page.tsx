@@ -1,7 +1,10 @@
+'use server'
+
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
 import { PlayerCards } from "../components/player-cards";
+import { redirect } from "next/navigation";
 
 export type PlayerAttribute = {
   title: string;
@@ -89,11 +92,18 @@ function getAttributes({ shooting, passing, defending, dribbling }: any) {
   ];
 }
 
+export async function updateRating({ playerId, attribute, rating }: { playerId: number, attribute: string, rating: number}) {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  await supabase.from("players").update({ [attribute.toLowerCase()]: rating }).eq('id', playerId).select();
+  redirect('/');
+}
+
 export default async function Home() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
-  const { error, data: players_ } = await supabase.from("players").select();
+  const { error, data: players_ } = await supabase.from("players").select().order('name', { ascending: true });
 
   if (error) {
     return <div>Something went wrong</div>;
@@ -108,8 +118,6 @@ export default async function Home() {
       attributes: getAttributes(player),
     };
   });
-
-  console.log(players_[0]);
 
   return <PlayerCards players={players} />;
 }
