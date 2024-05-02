@@ -396,7 +396,7 @@ export function PlayerCards() {
   )
 }
 
-function PlusIcon(props) {
+function PlusIcon(props: any) {
   return (
     <svg
       {...props}
@@ -413,11 +413,10 @@ function PlusIcon(props) {
       <path d="M5 12h14" />
       <path d="M12 5v14" />
     </svg>
-  )
+  );
 }
 
-
-function StarIcon(props) {
+function StarIcon(props: any) {
   return (
     <svg
       {...props}
@@ -433,5 +432,5 @@ function StarIcon(props) {
     >
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
     </svg>
-  )
+  );
 }
