@@ -125,7 +125,7 @@ function Rating({ rating }: { rating: number }) {
 
   return (
     <div className="flex items-center">
-      {[1, 2, 3, 4, 5].map((num) => {
+      {[0, 1, 2, 3, 4].map((num) => {
         return (
           <StarIcon
             key={`${id}_${num}`}
