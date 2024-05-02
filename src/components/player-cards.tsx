@@ -46,13 +46,58 @@ export function PlayerCards({ players }: PlayerCardsProps) {
   );
 }
 
+type PlayerRatingsProps = {
+  title: string;
+};
+function PlayerRatings(props: PlayerRatingsProps) {
+  const { title } = props;
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-gray-500">{title}</span>
+      <div className="flex items-center">
+        <button
+          aria-label="Set shooting rating to 1"
+          className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
+        >
+          <StarIcon className="h-5 w-5" />
+        </button>
+        <button
+          aria-label="Set shooting rating to 2"
+          className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
+        >
+          <StarIcon className="h-5 w-5" />
+        </button>
+        <button
+          aria-label="Set shooting rating to 3"
+          className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
+        >
+          <StarIcon className="h-5 w-5" />
+        </button>
+        <button
+          aria-label="Set shooting rating to 4"
+          className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
+        >
+          <StarIcon className="h-5 w-5" />
+        </button>
+        <button
+          aria-label="Set shooting rating to 5"
+          className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
+        >
+          <StarIcon className="h-5 w-5" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 type PlayerCardProps = {
   player: Player;
 };
 
 function PlayerCard(props: PlayerCardProps) {
   const { player } = props;
-  const { name, position, shooting, passing, dribbling, defending, image } = player;
+  const { name, position, shooting, passing, dribbling, defending, image } =
+    player;
   return (
     <Card className="bg-white shadow-md rounded-lg overflow-hidden">
       <div className="flex items-center p-4 border-b">
@@ -73,181 +118,12 @@ function PlayerCard(props: PlayerCardProps) {
         </div>
       </div>
       <div className="p-4 space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-gray-500">Shooting</span>
-          <div className="flex items-center">
-            <button
-              aria-label="Set shooting rating to 1"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set shooting rating to 2"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set shooting rating to 3"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set shooting rating to 4"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set shooting rating to 5"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-gray-500">Passing</span>
-          <div className="flex items-center">
-            <button
-              aria-label="Set passing rating to 1"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set passing rating to 2"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set passing rating to 3"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set passing rating to 4"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set passing rating to 5"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-gray-500">Dribbling</span>
-          <div className="flex items-center">
-            <button
-              aria-label="Set dribbling rating to 1"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set dribbling rating to 2"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set dribbling rating to 3"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set dribbling rating to 4"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set dribbling rating to 5"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-gray-500">Defending</span>
-          <div className="flex items-center">
-            <button
-              aria-label="Set defending rating to 1"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set defending rating to 2"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set defending rating to 3"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set defending rating to 4"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set defending rating to 5"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-gray-500">Overall</span>
-          <div className="flex items-center">
-            <button
-              aria-label="Set overall rating to 1"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set overall rating to 2"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set overall rating to 3"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set overall rating to 4"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-            <button
-              aria-label="Set overall rating to 5"
-              className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-            >
-              <StarIcon className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
+        <PlayerRatings title="Shooting" />
+        <PlayerRatings title="Passing" />
+        <PlayerRatings title="Dribbling" />
+        <PlayerRatings title="Defending" />
+        {/* <PlayerRatings title="Fooling" /> */}
+        <PlayerRatings title="Overall" />
       </div>
     </Card>
   );
