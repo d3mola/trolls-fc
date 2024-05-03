@@ -22,7 +22,7 @@ export type Player = {
   };
 };
 
-function getAttributes({ shooting, passing, defending, dribbling }: any) {
+function getAttributes({ shooting, passing, defending, dribbling, physicality }: any) {
   return [
     {
       title: "Shooting",
@@ -39,6 +39,10 @@ function getAttributes({ shooting, passing, defending, dribbling }: any) {
     {
       title: "Dribbling",
       rating: dribbling,
+    },
+    {
+      title: "Physicality",
+      rating: physicality,
     },
   ];
 }

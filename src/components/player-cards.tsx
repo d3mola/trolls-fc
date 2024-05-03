@@ -23,6 +23,14 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Player, type PlayerAttribute } from "../app/page";
 import { updateRating } from "../utils/supabase/players";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@radix-ui/react-dialog";
+import { DialogHeader } from "./ui/dialog";
 
 type PlayerCardsProps = {
   players: Array<Player>;
@@ -33,10 +41,23 @@ export function PlayerCards({ players }: PlayerCardsProps) {
     <div className="flex flex-col h-screen">
       <header className="bg-gray-900 text-white py-4 px-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Trolls FC</h1>
-        <Button size="sm" variant="outline">
-          <PlusIcon className="h-4 w-4" />
-          Add Player
-        </Button>
+        {/* <Dialog>
+          <DialogTrigger asChild>
+            <Button>
+              <PlusIcon className="h-4 w-4" />
+              Add Player
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you absolutely sure?</DialogTitle>
+              <DialogDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog> */}
       </header>
       <main className="flex-1 overflow-y-auto p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -136,7 +157,7 @@ function Rating({
           <StarIcon
             key={`player_${playerId}_${id}`}
             id={id}
-            starPos={id+1}
+            starPos={id + 1}
             stars={rating}
             // setStars={setStars}
             playerId={playerId}
@@ -148,8 +169,14 @@ function Rating({
   );
 }
 
-function StarIcon({ playerId, attribute, stars: rating, starPos, ...props }: any) {
-  let filled = starPos <= rating
+function StarIcon({
+  playerId,
+  attribute,
+  stars: rating,
+  starPos,
+  ...props
+}: any) {
+  let filled = starPos <= rating;
   const ratingIsUnchaged = rating === starPos;
   return (
     <button
