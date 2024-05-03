@@ -21,7 +21,8 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Player, updateRating, type PlayerAttribute } from "../app/page";
+import { Player, type PlayerAttribute } from "../app/page";
+import { updateRating } from "../utils/supabase/players";
 
 type PlayerCardsProps = {
   players: Array<Player>;

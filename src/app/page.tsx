@@ -22,55 +22,6 @@ export type Player = {
   };
 };
 
-// let players: Array<Player> = [
-//   {
-//     id: "1",
-//     name: "Ademola",
-//     position: "Defender",
-//     attributes: [
-//       {
-//         title: "Shooting",
-//         rating: 1,
-//       },
-//       {
-//         title: "Passing",
-//         rating: 2,
-//       },
-//       {
-//         title: "Defending",
-//         rating: 3,
-//       },
-//       {
-//         title: "Dribbling",
-//         rating: 4,
-//       },
-//     ],
-//   },
-//   {
-//     id: "2",
-//     name: "Jide Tella",
-//     position: "Attacker",
-//     attributes: [
-//       {
-//         title: "Shooting",
-//         rating: 4,
-//       },
-//       {
-//         title: "Passing",
-//         rating: 4,
-//       },
-//       {
-//         title: "Defending",
-//         rating: 1,
-//       },
-//       {
-//         title: "Dribbling",
-//         rating: 5,
-//       },
-//     ],
-//   },
-// ];
-
 function getAttributes({ shooting, passing, defending, dribbling }: any) {
   return [
     {
@@ -92,12 +43,13 @@ function getAttributes({ shooting, passing, defending, dribbling }: any) {
   ];
 }
 
-export async function updateRating({ playerId, attribute, rating }: { playerId: number, attribute: string, rating: number}) {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
-  await supabase.from("players").update({ [attribute.toLowerCase()]: rating }).eq('id', playerId).select();
-  redirect('/');
-}
+// export async function updateRating({ playerId, attribute, rating }: { playerId: number, attribute: string, rating: number}) {
+//   'use server'
+//   const cookieStore = cookies();
+//   const supabase = createClient(cookieStore);
+//   await supabase.from("players").update({ [attribute.toLowerCase()]: rating }).eq('id', playerId).select();
+//   redirect('/');
+// }
 
 export default async function Home() {
   const cookieStore = cookies();
