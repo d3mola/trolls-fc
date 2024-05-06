@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
 import { PlayerCards } from "../components/player-cards";
-import { redirect } from "next/navigation";
+import { getPlayers } from "../utils/supabase/players";
 
 export type PlayerAttribute = {
   title: string;
@@ -47,25 +47,17 @@ function getAttributes({ shooting, passing, defending, dribbling, physicality }:
   ];
 }
 
-// export async function updateRating({ playerId, attribute, rating }: { playerId: number, attribute: string, rating: number}) {
-//   'use server'
-//   const cookieStore = cookies();
-//   const supabase = createClient(cookieStore);
-//   await supabase.from("players").update({ [attribute.toLowerCase()]: rating }).eq('id', playerId).select();
-//   redirect('/');
-// }
-
 export default async function Home() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
-  const { error, data: players_ } = await supabase.from("players").select().order('name', { ascending: true });
+  const { error, data } = await getPlayers();
 
-  if (error) {
+  if (error || !data) {
     return <div>Something went wrong</div>;
   }
 
-  let players = players_.map((player) => {
+  const players = data.map((player) => {
     const { id, name, position } = player;
     return {
       id: id.toString(),
