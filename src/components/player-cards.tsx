@@ -19,6 +19,8 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Player, type PlayerAttribute } from "../app/page";
@@ -31,7 +33,6 @@ import {
   DialogDescription,
 } from "@radix-ui/react-dialog";
 import { DialogHeader } from "./ui/dialog";
-import { useState } from "react";
 
 type PlayerCardsProps = {
   players: Array<Player>;
@@ -42,6 +43,7 @@ export function PlayerCards({ players }: PlayerCardsProps) {
     <div className="flex flex-col h-screen">
       <header className="bg-gray-900 text-white py-4 px-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Trolls FC</h1>
+        {/* Uncomment to add a dialog for adding a player */}
         {/* <Dialog>
           <DialogTrigger asChild>
             <Button>
@@ -62,9 +64,9 @@ export function PlayerCards({ players }: PlayerCardsProps) {
       </header>
       <main className="flex-1 overflow-y-auto p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {players.map((player) => {
-            return <PlayerCard key={player.id} player={player} />;
-          })}
+          {players.map((player) => (
+            <PlayerCard key={player.id} player={player} />
+          ))}
         </div>
       </main>
     </div>
@@ -75,6 +77,7 @@ type PlayerAttributeProps = {
   id: string;
   attribute: PlayerAttribute;
 };
+
 function PlayerAttribute({ id, attribute }: PlayerAttributeProps) {
   const { title, rating } = attribute;
   return (
@@ -88,8 +91,8 @@ function PlayerAttribute({ id, attribute }: PlayerAttributeProps) {
 type PlayerCardProps = {
   player: Player;
 };
-function PlayerCard(props: PlayerCardProps) {
-  const { player } = props;
+
+function PlayerCard({ player }: PlayerCardProps) {
   const { name, position, image, attributes } = player;
   return (
     <Card className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -99,10 +102,7 @@ function PlayerCard(props: PlayerCardProps) {
           className="rounded-full mr-4"
           height={48}
           src={image?.src || "/placeholder.svg"}
-          style={{
-            aspectRatio: "48/48",
-            objectFit: "cover",
-          }}
+          style={{ aspectRatio: "48/48", objectFit: "cover" }}
           width={48}
         />
         <div>
@@ -111,11 +111,9 @@ function PlayerCard(props: PlayerCardProps) {
         </div>
       </div>
       <div className="p-4 space-y-2">
-        {attributes.map((att) => {
-          return (
-            <PlayerAttribute id={player.id} key={att.title} attribute={att} />
-          );
-        })}
+        {attributes.map((att) => (
+          <PlayerAttribute id={player.id} key={att.title} attribute={att} />
+        ))}
       </div>
     </Card>
   );
@@ -141,40 +139,13 @@ function PlusIcon(props: any) {
   );
 }
 
-function Rating({
-  value,
-  playerId,
-  attributeTitle,
-}: {
-  value: number;
-  playerId: string;
-  attributeTitle: string;
-}) {
-  const [hoveredRating, setHoveredRating] = useState(0);
-  return (
-    <div className="flex items-center">
-      {[1, 2, 3, 4, 5].map((rating) => {
-        const filled = rating <= (hoveredRating || value);
-        return (
-          <StarIcon
-            ariaLabel={`Set ${attributeTitle} to ${rating}`}
-            key={`player_${playerId}_${rating}`}
-            filled={filled}
-            onClick={() => {
-              updateRating({
-                playerId: Number(playerId),
-                attribute: attributeTitle,
-                rating: rating,
-              });
-            }}
-            onMouseEnter={() => setHoveredRating(rating)}
-            onMouseLeave={() => setHoveredRating(0)}
-          />
-        );
-      })}
-    </div>
-  );
-}
+type StarIconProps = {
+  filled: boolean;
+  onClick: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  ariaLabel: string;
+};
 
 function StarIcon({
   filled,
@@ -183,13 +154,7 @@ function StarIcon({
   onMouseLeave,
   ariaLabel,
   ...props
-}: {
-  filled: boolean;
-  onClick: () => void;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-  ariaLabel: string;
-}) {
+}: StarIconProps) {
   return (
     <button
       aria-label={ariaLabel}
@@ -214,5 +179,39 @@ function StarIcon({
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
       </svg>
     </button>
+  );
+}
+
+type RatingProps = {
+  value: number;
+  playerId: string;
+  attributeTitle: string;
+};
+
+function Rating({ value, playerId, attributeTitle }: RatingProps) {
+  const [hoveredRating, setHoveredRating] = useState<number | null>(null);
+
+  return (
+    <div className="flex items-center">
+      {[1, 2, 3, 4, 5].map((rating) => {
+        const filled = hoveredRating !== null ? rating <= hoveredRating : rating <= value;
+        return (
+          <StarIcon
+            ariaLabel={`Set ${attributeTitle} to ${rating}`}
+            key={`player_${playerId}_${rating}`}
+            filled={filled}
+            onClick={() => {
+              updateRating({
+                playerId: Number(playerId),
+                attribute: attributeTitle,
+                rating: rating,
+              });
+            }}
+            onMouseEnter={() => setHoveredRating(rating)}
+            onMouseLeave={() => setHoveredRating(null)}
+          />
+        );
+      })}
+    </div>
   );
 }
