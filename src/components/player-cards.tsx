@@ -31,6 +31,7 @@ import {
   DialogDescription,
 } from "@radix-ui/react-dialog";
 import { DialogHeader } from "./ui/dialog";
+import { useState } from "react";
 
 type PlayerCardsProps = {
   players: Array<Player>;
@@ -79,7 +80,7 @@ function PlayerAttribute({ id, attribute }: PlayerAttributeProps) {
   return (
     <div className="flex items-center justify-between">
       <span className="text-gray-500">{title}</span>
-      <Rating rating={rating} playerId={id} attribute={attribute} />
+      <Rating value={rating} playerId={id} attributeTitle={title} />
     </div>
   );
 }
@@ -141,27 +142,33 @@ function PlusIcon(props: any) {
 }
 
 function Rating({
-  rating,
+  value,
   playerId,
-  attribute,
+  attributeTitle,
 }: {
-  rating: number;
+  value: number;
   playerId: string;
-  attribute: PlayerAttribute;
+  attributeTitle: string;
 }) {
-  // const [stars, setStars] = useState(rating);
+  const [hoveredRating, setHoveredRating] = useState(0);
   return (
     <div className="flex items-center">
-      {[0, 1, 2, 3, 4].map((id) => {
+      {[1, 2, 3, 4, 5].map((rating) => {
+        const filled = rating <= (hoveredRating || value);
         return (
           <StarIcon
-            key={`player_${playerId}_${id}`}
-            id={id}
-            starPos={id + 1}
-            stars={rating}
-            // setStars={setStars}
-            playerId={playerId}
-            attribute={attribute}
+            ariaLabel={`Set ${attributeTitle} to ${rating}`}
+            key={`player_${playerId}_${rating}`}
+            filled={filled}
+            onClick={() => {
+              updateRating({
+                playerId: Number(playerId),
+                attribute: attributeTitle,
+                rating: rating,
+              });
+            }}
+            onMouseEnter={() => setHoveredRating(rating)}
+            onMouseLeave={() => setHoveredRating(0)}
           />
         );
       })}
@@ -170,25 +177,26 @@ function Rating({
 }
 
 function StarIcon({
-  playerId,
-  attribute,
-  stars: rating,
-  starPos,
+  filled,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  ariaLabel,
   ...props
-}: any) {
-  let filled = starPos <= rating;
-  const ratingIsUnchaged = rating === starPos;
+}: {
+  filled: boolean;
+  onClick: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  ariaLabel: string;
+}) {
   return (
     <button
-      aria-label="Set shooting rating to 1"
+      aria-label={ariaLabel}
       className="text-yellow-500 hover:text-yellow-600 focus:outline-none"
-      onClick={() => {
-        updateRating({
-          playerId: Number(playerId),
-          attribute: attribute.title,
-          rating: ratingIsUnchaged ? starPos - 1 : starPos,
-        });
-      }}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <svg
         {...props}
